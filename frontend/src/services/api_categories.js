@@ -13,7 +13,7 @@ export async function getAllCategories() {
       return response.data;
     });
   } catch (err) {
-    throw new Error(err);
+    throw new Error(err.response.status);
   }
 }
 

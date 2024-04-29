@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useCallback, useContext, useEffect } from "react";
 import { PageContext } from "../contexts/PageContext";
 import Loader from "../ui/Loader";
 import ChooseCategory from "../ui/ChooseCategory";
@@ -12,32 +12,43 @@ function CategoriesPallet() {
   const { dispatch, chosenCategory, curPage } = useContext(PageContext);
   const navigate = useNavigate();
 
-  const {
-    isPending,
-    data: categs,
-    isError,
-  } = useQuery({
-    queryKey: ["categories"],
-    queryFn: getAllCategories,
-    retry: 2,
-    onError: (error) => {
-      if (error.status === 404) {
-        navigateAddCategory();
-      } else if (error.status === 401) {
-        const isRefreshed = refreshAccessToken();
-        if (isRefreshed) return navigate(0);
-        return navigate("/signup");
-      }
-    },
-  });
-
   function chooseCategory(categoryId) {
     dispatch({ type: "pages/chooseCategory", payload: categoryId });
   }
 
-  function navigateAddCategory() {
+  const navigateAddCategory = useCallback(() => {
     dispatch({ type: "pages/changePage", payload: "addCategory" });
-  }
+  }, [dispatch]);
+
+  const {
+    isPending,
+    data: categs,
+    isError,
+    error,
+  } = useQuery({
+    queryKey: ["categories"],
+    queryFn: getAllCategories,
+    retry: 1,
+    onError: (err) => {
+      if (err.response?.status) {
+        console.log("HERRRRE");
+      }
+    },
+  });
+
+
+  useEffect(() => {
+    if (isError) {
+      const statusCode = +error.message;
+      if (statusCode === 404) {
+        navigateAddCategory();
+      } else if (statusCode === 401) {
+        const isRefreshed = refreshAccessToken();
+        if (isRefreshed) return navigate(0);
+        return navigate("/signup");
+      }
+    }
+  }, [navigate, error?.message, isError, navigateAddCategory, dispatch]);
 
   return (
     <ul className="relative grid grid-cols-4 grid-rows-3  gap-14 text-2xl">
