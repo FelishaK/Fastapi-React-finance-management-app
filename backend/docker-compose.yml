@@ -6,7 +6,7 @@ services:
 
     build: .
 
-    command: bash -c "uvicorn ma1n:app --reload --host 0.0.0.0 --port 8000"
+    command: bash -c "uvicorn ma1n:app --reload --host 0.0.0.0 --port 8000 && alembic revision --autogenerate && alembic upgrade head"
 
     environment:
       - DB_USER=postgres
@@ -19,11 +19,10 @@ services:
       - ACCESS_TOKEN_EXPIRATION_TIME=10
       - REFRESH_TOKEN_EXPIRATION_TIME=30
 
-    depends_on:
-      - db
-
     ports:
       - "8000:8000"
+    depends_on:
+      - db
 
   db:
     container_name: "postgres_db"
