@@ -25,14 +25,14 @@ class BaseRepo(AbstractRepo, Generic[DataT]):
         user_id: int,
         session: AsyncSession,
     ) -> list[DataT]:
-        stmt = select(self.model).where(User.id == user_id)
+        stmt = select(self.model).where(self.model.user_id == user_id)
 
         if not (res := list(await session.scalars(stmt))):
             raise NoDataFoundExc
         return res
 
     async def get_by_id(self, user_id: int, session: AsyncSession, id: int) -> DataT:
-        stmt = select(self.model).where(and_(User.id == user_id, self.model.id == id))
+        stmt = select(self.model).where(and_(self.model.user_id == user_id, self.model.id == id))
 
         if not (res := (await session.execute(stmt)).scalar_one_or_none()):
             raise NoDataFoundExc
