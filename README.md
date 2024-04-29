@@ -5,6 +5,8 @@
 ### Features implemented:
 
 - Expenses, categories CRUD
+- filtering by period (week, month, year)
+- pagination (only top 10 expenses are displayed within each period)
 - Authorization via JWT tokens (access and refresh tokens implemented)
 
 ---
