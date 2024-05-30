@@ -44,6 +44,7 @@ function Registration() {
       >
         <div className="flex size-9/12 flex-col  ">
           <input
+            autoComplete="off"
             {...register("username", {
               required: {
                 value: true,
@@ -60,6 +61,7 @@ function Registration() {
             </span>
           )}
           <input
+            autoComplete="off"
             {...register("email")}
             type="email"
             placeholder="Email"
@@ -67,6 +69,7 @@ function Registration() {
           />
 
           <input
+            autoComplete="off"
             {...register("password", {
               required: "This field is required!",
               minLength: {
@@ -84,6 +87,7 @@ function Registration() {
             </span>
           )}
           <input
+            autoComplete="off"
             {...register("confirm_password", {
               required: true,
               minLength: {

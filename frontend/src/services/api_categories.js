@@ -28,6 +28,8 @@ export async function createCategory({ sticker, name }) {
       headers: { Authorization: tokenToSend },
     });
   } catch (err) {
-    throw new Error(err.response);
+    if (err.response.status === 409) {
+      throw new Response("Category Already exists", { status: 409 });
+    }
   }
 }

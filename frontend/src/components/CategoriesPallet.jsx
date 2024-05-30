@@ -1,5 +1,9 @@
-import { useCallback, useContext, useEffect } from "react";
-import { PageContext } from "../contexts/PageContext";
+import { useContext, useEffect } from "react";
+import {
+  PageContext,
+  chooseCategory,
+  moveAddCategory,
+} from "../contexts/PageContext";
 import Loader from "../ui/Loader";
 import ChooseCategory from "../ui/ChooseCategory";
 import Button from "../ui/Button";
@@ -12,14 +16,6 @@ function CategoriesPallet() {
   const { dispatch, chosenCategory, curPage } = useContext(PageContext);
   const navigate = useNavigate();
 
-  function chooseCategory(categoryId) {
-    dispatch({ type: "pages/chooseCategory", payload: categoryId });
-  }
-
-  const navigateAddCategory = useCallback(() => {
-    dispatch({ type: "pages/changePage", payload: "addCategory" });
-  }, [dispatch]);
-
   const {
     isPending,
     data: categs,
@@ -29,26 +25,20 @@ function CategoriesPallet() {
     queryKey: ["categories"],
     queryFn: getAllCategories,
     retry: 1,
-    onError: (err) => {
-      if (err.response?.status) {
-        console.log("HERRRRE");
-      }
-    },
   });
-
 
   useEffect(() => {
     if (isError) {
       const statusCode = +error.message;
       if (statusCode === 404) {
-        navigateAddCategory();
+        moveAddCategory(dispatch);
       } else if (statusCode === 401) {
         const isRefreshed = refreshAccessToken();
         if (isRefreshed) return navigate(0);
         return navigate("/signup");
       }
     }
-  }, [navigate, error?.message, isError, navigateAddCategory, dispatch]);
+  }, [navigate, error?.message, isError, dispatch]);
 
   return (
     <ul className="relative grid grid-cols-4 grid-rows-3  gap-14 text-2xl">
@@ -62,12 +52,12 @@ function CategoriesPallet() {
               isChosen={chosenCategory}
               sticker={category.sticker}
               category={category.name}
-              onClick={() => chooseCategory(category.id)}
+              onClick={() => chooseCategory(dispatch, category.id)}
             />
           )))}
       <li className="flex justify-center">
         {categs && curPage !== "editExpense" && (
-          <Button onClick={navigateAddCategory} type="add">
+          <Button onClick={() => moveAddCategory(dispatch)} type="add">
             +
           </Button>
         )}

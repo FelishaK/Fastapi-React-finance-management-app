@@ -34,11 +34,11 @@ class AbstractRepo(ABC, Generic[ReturnDataT, CreateDataT, UpdateDataT]):
         ...
 
 
-class AbstractAuthRepo:
+class AbstractAuthRepo(ABC):
     @abstractmethod
     async def get_auth_user_data(self, session: AsyncSession, email: str) -> dict:
         ...
 
     @abstractmethod
-    async def register(self, session: AsyncSession, user_data: dict):
+    async def register(self, session: AsyncSession, user_data: dict) -> None:
         ...

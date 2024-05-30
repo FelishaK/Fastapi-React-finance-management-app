@@ -46,7 +46,6 @@ class AuthorizationService:
         )
         if user:
             token: str = self.__tokenIssuer(email=user["email"], username=user["username"], issue_refresh=False)
-            print("ACCESS TOKEN", token)
             return TokenS(
                 access_token=token,
                 type="Bearer"

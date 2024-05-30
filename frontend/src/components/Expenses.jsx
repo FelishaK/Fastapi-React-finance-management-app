@@ -9,6 +9,7 @@ import Loader from "../ui/Loader";
 import { redirect, useNavigate } from "react-router-dom";
 import { getAuthedUserInfo, refreshAccessToken } from "../services/api_auth";
 import userLogout from "../utils/userLogout";
+import { moveAddExpense, moveEditExpense } from "../contexts/PageContext";
 
 function Expenses() {
   const { dispatch } = useContext(PageContext);
@@ -62,12 +63,7 @@ function Expenses() {
               {isPending ? "Loading . . ." : currencyFormatter(totalAmount)}
             </li>
             <li>
-              <Button
-                onClick={() =>
-                  dispatch({ type: "pages/changePage", payload: "addExpense" })
-                }
-                type="add"
-              >
+              <Button onClick={() => moveAddExpense(dispatch)} type="add">
                 +
               </Button>
             </li>
@@ -99,10 +95,7 @@ function Expenses() {
                     type: "pages/chooseExpenseId",
                     payload: expense.id,
                   });
-                  dispatch({
-                    type: "pages/changePage",
-                    payload: "editExpense",
-                  });
+                  moveEditExpense(dispatch);
                 }}
                 key={expense.id}
                 date={expense.created_at}

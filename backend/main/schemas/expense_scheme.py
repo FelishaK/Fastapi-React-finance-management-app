@@ -25,4 +25,4 @@ class CreateExpenseS(BaseModel):
 class UpdateExpenseS(BaseModel):
     category_id: int
     amount: float
-    created_at: date | None
+    created_at: date | None = None

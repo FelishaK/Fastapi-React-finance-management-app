@@ -21,8 +21,8 @@ function ChooseExpensePrice({
   } = useForm();
 
   return (
-    <div className="relative mt-44 text-2xl text-paleGrey">
-      <div className="flex items-center justify-center">
+    <main className="relative mt-44 text-2xl text-paleGrey">
+      <section className="flex items-center justify-center">
         <p className="flex gap-2">
           {children.length > 1 ? children[0] : children}
           {!formatDate(calValue) ? calValue : formatDate(calValue)}
@@ -32,16 +32,18 @@ function ChooseExpensePrice({
             <Calendar value={calValue} onChange={onCalValueChange} />
           )}
         </div>
+
         <button
           className="ml-5"
           onClick={() => setCalOpen((calOpen) => !calOpen)}
         >
           {!isEditing && (calOpen ? "❌" : "📆")}
         </button>
-      </div>
-      <div className="relative flex w-full flex-col">
+      </section>
+      <section className="relative flex w-full flex-col">
         <form id="expenseAmountForm" onSubmit={handleSubmit(onSubmit)}>
           <input
+            autoComplete="off"
             {...register("amount", {
               required: { value: true, message: "Enter amount!" },
               max: {
@@ -58,12 +60,12 @@ function ChooseExpensePrice({
         </form>
 
         <span className="border-round absolute inset-x-0 bottom-0 h-1  rounded-full bg-gray-200"></span>
-      </div>
+      </section>
       <span className="flex justify-center  text-red-600">
         {errors?.amount?.message && errors.amount.message}
       </span>
       <div className="mt-5 flex w-full justify-center">{children[1]}</div>
-    </div>
+    </main>
   );
 }
 

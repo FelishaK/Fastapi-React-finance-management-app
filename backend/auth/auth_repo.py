@@ -28,7 +28,7 @@ class AuthRepo(AbstractAuthRepo):
         except TypeError:
             raise NotAuthedExc("Wrong email / password")
 
-    async def register(self, session: AsyncSession, user_data: dict):
+    async def register(self, session: AsyncSession, user_data: dict) -> None:
         if user_data["password"] != user_data["confirm_password"]:
             raise PasswordsDoNotMatchExc
 

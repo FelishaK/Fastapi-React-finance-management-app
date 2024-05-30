@@ -46,10 +46,9 @@ class BaseRepo(AbstractRepo, Generic[DataT]):
             await session.commit()
             return returned_instance.scalar_one_or_none()
 
-        except IntegrityError as e:
-            print(e)
+        except IntegrityError:
             raise HTTPException(
-                status_code=400,
+                status_code=status.HTTP_409_CONFLICT,
                 detail="Some error occurred while creating. May be entity already exists or no "
                 "associative entity",
             )

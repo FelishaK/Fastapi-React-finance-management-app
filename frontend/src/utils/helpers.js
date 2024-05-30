@@ -11,7 +11,14 @@ export function formatDate(dateStr) {
 }
 
 export function formatDateForAPI(dateStr) {
-  return new Date(dateStr).toISOString().split("T")[0];
+  const currDate = new Date();
+  let date = new Date(dateStr);
+  if (date.getDay() !== currDate.getDay()) {
+    return new Date(date.setDate(date.getDate() + 1))
+      .toISOString()
+      .split("T")[0];
+  }
+  return date.toISOString().split("T")[0];
 }
 
 export function currencyFormatter(curStr) {

@@ -12,13 +12,14 @@ class Category(Base):
 
     __table_args__ = (
         UniqueConstraint(
+            "user_id",
             "name",
             "sticker",
             name="uq_name_sticker",
         ),
     )
 
-    name: Mapped[str] = mapped_column(unique=True)
+    name: Mapped[str] = mapped_column()
     user_id: Mapped[int] = mapped_column(ForeignKey("users.id"))
     sticker: Mapped[str]
 

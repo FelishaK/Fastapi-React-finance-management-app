@@ -1,9 +1,9 @@
 import { useContext } from "react";
-import Expenses from "../features/Expenses";
-import AddExpense from "../features/AddExpense";
-import EditExpense from "../features/EditExpense";
+import Expenses from "../components/Expenses";
+import AddExpense from "../components/AddExpense";
+import EditExpense from "../components/EditExpense";
 import { PageContext } from "../contexts/PageContext";
-import AddCategory from "../features/AddCategory";
+import AddCategory from "../components/AddCategory";
 
 function Application() {
   const { curPage } = useContext(PageContext);

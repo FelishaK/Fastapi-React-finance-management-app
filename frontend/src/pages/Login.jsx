@@ -2,12 +2,9 @@ import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { userLogin } from "../services/api_auth";
 import { toast } from "react-hot-toast";
-import { useContext } from "react";
-import { PageContext } from "../contexts/PageContext";
 import { getAuthedUserInfo } from "../services/api_auth";
 
 function Login() {
-  const { dispatch } = useContext(PageContext);
   const navigate = useNavigate();
   const {
     register,
@@ -45,16 +42,22 @@ function Login() {
       >
         <div className="flex size-9/12 flex-col  ">
           <input
+            autoComplete="off"
             {...register("email", { required: true })}
             type="email"
             placeholder="Email"
             className="block w-full rounded-lg border px-4 py-3 text-sm outline-none focus:outline-none focus:ring focus:ring-yellow-400"
           />
           <input
+            autoComplete="off"
             {...register("password", {
               required: {
                 value: true,
                 message: "This is a required field",
+              },
+              minLength: {
+                value: 6,
+                message: "Password should at least contain 6 characters!",
               },
             })}
             type="password"

@@ -30,7 +30,7 @@ class TokenIssuer:
 
         if not is_refresh:
             payload = {
-                "exp": datetime.utcnow() + timedelta(minutes=config.ACCESS_TOKEN_EXPIRATION_TIME),
+                "exp": datetime.utcnow() + timedelta(hours=config.ACCESS_TOKEN_EXPIRATION_TIME),
                 "iat": datetime.utcnow(),
                 "sub": email,
                 "username": username,
@@ -39,7 +39,7 @@ class TokenIssuer:
 
         else:
             payload = {
-                "exp": datetime.utcnow() + timedelta(minutes=config.REFRESH_TOKEN_EXPIRATION_TIME),
+                "exp": datetime.utcnow() + timedelta(days=config.REFRESH_TOKEN_EXPIRATION_TIME),
                 "iat": datetime.utcnow(),
                 "sub": email,
                 "token_type": token_type,

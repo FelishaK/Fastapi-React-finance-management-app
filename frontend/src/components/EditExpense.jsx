@@ -1,7 +1,11 @@
 import { useContext, useEffect, useState } from "react";
 import Button from "../ui/Button";
 import CategoriesPallet from "./CategoriesPallet";
-import { PageContext } from "../contexts/PageContext";
+import {
+  PageContext,
+  chooseCategory,
+  moveInitial,
+} from "../contexts/PageContext";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   deleteExpense,
@@ -10,7 +14,7 @@ import {
 } from "../services/api_expenses";
 import ButtonsPallet from "../ui/ButtonsPallet";
 import ChooseExpensePrice from "../ui/ChooseExpensePrice";
-import { formatDateForAPI } from "../utils/helpers";
+import toast from "react-hot-toast";
 
 function EditExpense() {
   const { chosenExpenseId, dispatch, chosenCategory } = useContext(PageContext);
@@ -23,14 +27,14 @@ function EditExpense() {
   });
 
   const [value, onChange] = useState();
-  const [amount, setAmount] = useState("");
+  const [amount, setExpenseAmount] = useState("");
 
   useEffect(() => {
-    setAmount(expense?.amount);
+    setExpenseAmount(expense?.amount);
     onChange(expense?.created_at);
-    dispatch({ type: "pages/chooseCategory", payload: expense?.category_id });
+    chooseCategory(dispatch, expense?.category_id);
     return () => {
-      dispatch({ type: "pages/chooseCategory", payload: null });
+      chooseCategory(dispatch, null);
     };
   }, [expense, amount, dispatch]);
 
@@ -47,34 +51,29 @@ function EditExpense() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["expenses"] });
     },
+    onError: (err) => {
+      if (err.status === 422) {
+        toast.error("Invalid input");
+      }
+    },
   });
 
   const onDeleteClick = () => {
     mutateDelete({
       expenseId: expense.id,
     });
-    navigateInitial();
+    moveInitial(dispatch);
   };
 
   const onSubmit = async (data) => {
-    const formattedDate = formatDateForAPI(value) || value;
     mutateUpdate({
       id: chosenExpenseId,
       category_id: chosenCategory,
       amount: +data.amount,
-      created_at: formattedDate,
     });
-    reinitializeCategory();
-    navigateInitial();
+    chooseCategory(dispatch, null);
+    moveInitial(dispatch);
   };
-
-  function reinitializeCategory() {
-    dispatch({ type: "pages/chooseCategory", payload: null });
-  }
-
-  function navigateInitial() {
-    dispatch({ type: "pages/changePage", payload: "initial" });
-  }
 
   return (
     <section className="flex flex-col items-center  bg-white shadow-appShadow sm:h-dvh sm:w-[650px]">
@@ -98,7 +97,7 @@ function EditExpense() {
       <div className="mt-32 flex w-full items-center justify-center px-9">
         <CategoriesPallet />
       </div>
-      <ButtonsPallet cancelPageName="initial" formName="expenseAmountForm" />
+      <ButtonsPallet formName="expenseAmountForm" />
     </section>
   );
 }

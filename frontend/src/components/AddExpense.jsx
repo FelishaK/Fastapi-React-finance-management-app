@@ -1,6 +1,10 @@
 import { useContext, useState } from "react";
 import ChooseExpensePrice from "../ui/ChooseExpensePrice";
-import { PageContext } from "../contexts/PageContext";
+import {
+  PageContext,
+  moveInitial,
+  chooseCategory,
+} from "../contexts/PageContext";
 import { createExpense } from "../services/api_expenses";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { formatDateForAPI } from "../utils/helpers";
@@ -20,6 +24,11 @@ function AddExpense({ children }) {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["expenses"] });
     },
+    onError: (err) => {
+      if (err.status === 422) {
+        toast.error("Incorrect Input");
+      }
+    },
   });
 
   const onSubmit = async (data) => {
@@ -33,22 +42,14 @@ function AddExpense({ children }) {
       amount: +data.amount,
       creationDate: formattedDate,
     });
-    reinitializeCategory();
-    navigateInitial();
+    chooseCategory(dispatch, null);
+    moveInitial(dispatch);
   };
-
-  function reinitializeCategory() {
-    dispatch({ type: "pages/chooseCategory", payload: null });
-  }
-
-  function navigateInitial() {
-    dispatch({ type: "pages/changePage", payload: "initial" });
-  }
 
   return (
     <section className="flex flex-col items-center  bg-white shadow-appShadow sm:h-dvh sm:w-[650px]">
       <header className="mt-10 flex flex-col text-2xl font-bold">
-        <p className="text-green-500">EXPENSES</p>
+        <h1 className="text-green-500">EXPENSES</h1>
       </header>
       <ChooseExpensePrice value={value} onChange={onChange} onSubmit={onSubmit}>
         <p>Today on</p>
@@ -60,7 +61,10 @@ function AddExpense({ children }) {
         <CategoriesPallet />
       </div>
 
-      <ButtonsPallet cancelPageName="initial" formName="expenseAmountForm" />
+      <ButtonsPallet
+        navigationFunc={moveInitial}
+        formName="expenseAmountForm"
+      />
     </section>
   );
 }

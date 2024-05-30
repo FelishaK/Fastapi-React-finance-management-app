@@ -1,0 +1,47 @@
+[33mcommit 92d5eee4216cfa477b30bf696bac587bf2bcb395[m[33m ([m[1;36mHEAD -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Author: FelishaK <112692103+FelishaK@users.noreply.github.com>
+Date:   Mon Apr 29 18:57:53 2024 +0300
+
+    Update README.md
+
+[33mcommit aeb55bd09feb261095fa3ccc68ff5280d57c5745[m
+Author: FelishaK <112692103+FelishaK@users.noreply.github.com>
+Date:   Mon Apr 29 18:56:08 2024 +0300
+
+    Create README.md
+
+[33mcommit c8eb17690e802dc97cfef05347a28f55807097a0[m
+Author: kirill <Richi.mosberg@gmail.com>
+Date:   Mon Apr 29 18:45:36 2024 +0300
+
+    frontend fixed bugs
+
+[33mcommit 034dcbde1ab5913add5a78348981043207e1f822[m
+Author: kirill <Richi.mosberg@gmail.com>
+Date:   Mon Apr 29 18:39:19 2024 +0300
+
+    fixed bugs with app
+
+[33mcommit 18fe3dd7e74f9948ea95c59d820c3e630705e491[m
+Author: kirill <Richi.mosberg@gmail.com>
+Date:   Mon Apr 29 17:55:51 2024 +0300
+
+    fixed bug with categories
+
+[33mcommit 9bf7a6ffa0865cac167f656b0d4525d7e0d99a00[m
+Author: kirill <Richi.mosberg@gmail.com>
+Date:   Mon Apr 29 15:00:00 2024 +0300
+
+    fixed bugs-1
+
+[33mcommit cf6dc3fb395d46a9a8024bc8711ea38840aa2439[m
+Author: kirill <Richi.mosberg@gmail.com>
+Date:   Sun Apr 28 23:01:49 2024 +0300
+
+    backend
+
+[33mcommit eff3c6a003f0fbba1c9ce643f79ec047cc311281[m
+Author: kirill <Richi.mosberg@gmail.com>
+Date:   Sun Apr 28 22:41:59 2024 +0300
+
+    backend + frontend

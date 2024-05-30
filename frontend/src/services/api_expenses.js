@@ -46,7 +46,7 @@ async function createExpense({ categoryId, amount, creationDate }) {
       })
       .then((response) => response.data);
   } catch (err) {
-    throw new Error(err.message);
+    throw new Response("Icorrect data input", { status: 422 });
   }
 }
 
@@ -68,7 +68,7 @@ export async function updateExpense({ id, category_id, amount, created_at }) {
       })
       .then((response) => response?.response?.data);
   } catch (err) {
-    throw new Error(err.message);
+    throw new Response("Invalid input", { status: 422 });
   }
 }
 
