@@ -11,9 +11,9 @@
 
 ---
 
-### Core backend tech stack used: FastApi, SQLAlchemy 2.0, Alembic
+### Core backend tech stack used: FastApi, Pydantic, SQLAlchemy 2.0, Alembic
 
-### Core frontend tech stack used: React, tailwind CSS, React Router, React Query
+### Core frontend tech stack used: React, tailwind CSS, React Router, React Query, Axious
 
 # How to use the project
 
@@ -21,6 +21,9 @@
 2. cd Fastapi-React-finance-management-app\backend 
 3. docker-compose up --build
 4. docker exec -it application bash
-4. alembic revision --autogenerate
-6. alembic upgrade head
-### Steps 4,5,6 are optional, depending on the OS you use. For me, on windows 10, migrations are not run automatically via docker container(I get error in the terminal), so I have to run them manually. If you experience some kind of problem, when tables are not created, you probably need to go through steps 4-6.
+5. cd alembic
+6. mkdir versions
+7. cd .. 
+7. alembic revision --autogenerate
+8. alembic upgrade head
+
